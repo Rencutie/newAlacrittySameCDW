@@ -22,7 +22,8 @@ fi
 PROCESS_NAME=$(ps -p "$CHILD_PID" -o comm=)
 
 # Check if the process is a terminal shell or terminal emulator
-if [[ "$PROCESS_NAME" = alacritty ]]; then
+# you might want to add a different one in the regex here
+if [[ "$PROCESS_NAME" =~ (bash|zsh|fish|xterm) ]]; then
     # Get the current working directory of the shell process
     SHELL_CWD=$(pwdx "$CHILD_PID" | cut -d ' ' -f2-)
     if [[ -n "$SHELL_CWD" && -d "$SHELL_CWD" ]]; then
@@ -34,4 +35,5 @@ fi
 # If no terminal is detected, starts in home
 alacritty
 exit 0
+
 
